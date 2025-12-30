@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { GoogleTranslate } from "@/components/google-translate"
 
 const ScaleIcon = () => (
   <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,6 +25,7 @@ export function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
+            <GoogleTranslate />
             <a
               href="#features"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"

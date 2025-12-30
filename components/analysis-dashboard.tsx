@@ -20,7 +20,6 @@ interface ProcessedDocument {
   wordCount: number
   processingTime: number
   extractedText: string
-  isScanned: boolean
   classificationResult: ClassificationResult
   riskAssessment?: RiskAssessment
   multilingualSummary?: MultilingualSummaryType
@@ -223,11 +222,6 @@ export function AnalysisDashboard({ document, onClose }: AnalysisDashboardProps)
               </div>
               <div className="mt-2 text-xs text-muted-foreground">
                 {document.pageCount} pages • {document.wordCount} words
-                {document.isScanned && (
-                  <Badge variant="secondary" className="ml-2 text-xs">
-                    OCR
-                  </Badge>
-                )}
               </div>
             </CardContent>
           </Card>
@@ -334,8 +328,8 @@ export function AnalysisDashboard({ document, onClose }: AnalysisDashboardProps)
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
                         <span>Text Extraction</span>
-                        <Badge variant={document.isScanned ? "secondary" : "outline"}>
-                          {document.isScanned ? "OCR Applied" : "Direct Extraction"}
+                        <Badge variant="outline">
+                          Direct Extraction
                         </Badge>
                       </div>
                       <div className="flex items-center justify-between text-sm">

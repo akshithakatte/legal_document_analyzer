@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
       console.log("[v0] Initializing MultilingualSummarizer...")
       summarizer = new MultilingualSummarizer()
       console.log("[v0] MultilingualSummarizer initialized successfully")
+      console.log("[v0] Client-side abstractive summarization enabled")
     } catch (initError) {
       console.error("[v0] Failed to initialize summarizer:", initError)
       return globalErrorHandler(initError, "summarizer_initialization")
@@ -91,10 +92,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         ...(result as any),
         apiInfo: {
+          summarizationService: "Client-Side Abstractive Summarization (with fallback)",
           translationService: "Simple Local Translator",
           processedLanguages: validLanguages.length,
           timestamp: new Date().toISOString(),
           textLength: text.length,
+          supportedLanguages: supportedLangCodes,
         },
       })
     } catch (summaryError) {

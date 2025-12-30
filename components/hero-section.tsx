@@ -73,9 +73,9 @@ export function HeroSection() {
               <div className="rounded-full bg-primary/10 p-3 mb-4">
                 <FileTextIcon />
               </div>
-              <h3 className="text-sm font-semibold text-foreground">Smart OCR</h3>
+              <h3 className="text-sm font-semibold text-foreground">Document Analysis</h3>
               <p className="text-sm text-muted-foreground text-center">
-                Extract text from both digital and scanned PDFs
+                Extract and analyze text from legal documents
               </p>
             </div>
 

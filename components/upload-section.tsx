@@ -105,7 +105,6 @@ interface ProcessedFile {
   status: "uploading" | "extracting" | "preprocessing" | "classifying" | "completed" | "error"
   progress: number
   extractedText?: string
-  isScanned?: boolean
   pageCount?: number
   wordCount?: number
   processingTime?: number
@@ -183,7 +182,6 @@ export function UploadSection() {
       // Step 3: Complete
       updateFileStatus(fileIndex, "completed", 100, "Analysis complete", {
         extractedText: uploadResult.extractedText,
-        isScanned: uploadResult.isScanned,
         pageCount: uploadResult.pageCount,
         wordCount: processResult.wordCount,
         processingTime: uploadResult.processingTime + processResult.processingTime,
@@ -293,7 +291,6 @@ export function UploadSection() {
           wordCount: selectedFile.wordCount || 0,
           processingTime: selectedFile.processingTime || 0,
           extractedText: selectedFile.extractedText || "",
-          isScanned: selectedFile.isScanned || false,
           classificationResult: selectedFile.classificationResult,
         }}
         onClose={handleCloseDashboard}
@@ -348,12 +345,6 @@ export function UploadSection() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
-                              {file.isScanned && (
-                                <Badge variant="secondary" className="text-xs">
-                                  <ScanIcon className="h-3 w-3 mr-1" />
-                                  OCR
-                                </Badge>
-                              )}
                               {file.classificationResult && (
                                 <Badge variant="outline" className="text-xs">
                                   <BrainIcon className="h-3 w-3 mr-1" />

@@ -1,0 +1,22 @@
+# Legal Document Analyzer - Tech Stack
+
+## Features & Technologies
+
+Document Processing: unpdf
+Clause Classification: Custom ML Classifier
+Multilingual Summarization: Google Translate
+Summarization: Client-Side Abstractive AI (Custom Implementation - No T5)
+Text-to-Speech: Web Speech API
+Frontend Framework: Next.js
+UI Library: React
+Styling: TailwindCSS
+PDF Processing: unpdf
+Risk Assessment: Custom Engine
+Translation: Google Translate Widget
+File Upload: React Dropzone
+Icons: Lucide React
+Components: Radix UI
+Development: TypeScript
+Language: JavaScript/TypeScript
+Build Tool: Next.js
+Deployment: Vercel/Netlify

@@ -86,9 +86,9 @@ const ZapIcon = () => (
 const features = [
   {
     icon: FileTextIcon,
-    title: "Smart OCR Processing",
+    title: "Document Processing",
     description:
-      "Advanced optical character recognition extracts text from both digital and scanned PDF documents with high accuracy.",
+      "Advanced text extraction and analysis from legal documents with comprehensive clause identification and risk assessment.",
   },
   {
     icon: BrainIcon,

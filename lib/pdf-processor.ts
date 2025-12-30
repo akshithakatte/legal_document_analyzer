@@ -2,7 +2,6 @@ import { extractText, getDocumentProxy } from "unpdf"
 
 interface ExtractionResult {
   text: string
-  isScanned: boolean
   pageCount: number
   processingTime: number
 }
@@ -34,8 +33,7 @@ export async function extractTextFromPDF(buffer: Buffer, fileName: string): Prom
     if (!extractedText || extractedText.length < 50) {
       console.log("[v0] No text found or text too short, document may be scanned")
       return {
-        text: `[Scanned Document: ${fileName}]\n\nThis appears to be a scanned PDF document. Text extraction may be limited. Please ensure the document contains selectable text for accurate analysis.`,
-        isScanned: true,
+        text: `[Document Processing: ${fileName}]\n\nThis appears to be a PDF document with limited text extraction. Please ensure the document contains selectable text for accurate analysis.`,
         pageCount,
         processingTime: Date.now() - startTime,
       }
@@ -45,7 +43,6 @@ export async function extractTextFromPDF(buffer: Buffer, fileName: string): Prom
 
     return {
       text: extractedText,
-      isScanned: false,
       pageCount,
       processingTime: Date.now() - startTime,
     }
@@ -56,7 +53,6 @@ export async function extractTextFromPDF(buffer: Buffer, fileName: string): Prom
 
     return {
       text: `[Error Processing: ${fileName}]\n\nPDF processing failed: ${errorMessage}\n\nThis may be due to:\n- Corrupted PDF file\n- Password-protected document\n- Unsupported PDF format\n- Server processing issues\n\nPlease try uploading the document again or use a different PDF file.`,
-      isScanned: true,
       pageCount: 1,
       processingTime: Date.now() - startTime,
     }

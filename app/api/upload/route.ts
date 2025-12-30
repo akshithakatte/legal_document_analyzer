@@ -22,11 +22,9 @@ export async function POST(request: NextRequest) {
     const extractionResult = await extractTextFromPDF(buffer, file.name)
 
     return NextResponse.json({
-      success: true,
       fileName: file.name,
       fileSize: file.size,
       extractedText: extractionResult.text,
-      isScanned: extractionResult.isScanned,
       pageCount: extractionResult.pageCount,
       processingTime: extractionResult.processingTime,
     })

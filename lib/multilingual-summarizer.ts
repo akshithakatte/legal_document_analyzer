@@ -202,9 +202,11 @@ class ExtractiveSummarizer {
 }
 
 import { SimpleTranslator } from "./simple-translator"
+import { ClientSideAbstractiveSummarizer } from "./client-side-abstractive"
 
 export class MultilingualSummarizer {
   private summarizer = new ExtractiveSummarizer()
+  private abstractiveSummarizer = new ClientSideAbstractiveSummarizer()
   private translator = new SimpleTranslator()
 
   private supportedLanguages = [
@@ -215,6 +217,10 @@ export class MultilingualSummarizer {
     { code: "ml", name: "മലയാളം (Malayalam)" },
     { code: "gu", name: "ગુજરાતી (Gujarati)" },
   ]
+
+  constructor() {
+    console.log("[MultilingualSummarizer] Initialized with client-side abstractive summarization")
+  }
 
   private async translateWithFallback(text: string, targetLanguage: string): Promise<string> {
     try {
@@ -263,22 +269,36 @@ export class MultilingualSummarizer {
       let keyPoints: string[]
 
       try {
-        console.log("[v0] Extracting English summary...")
-        englishSummary = this.summarizer.extractSummary(text, 6)
-        console.log(`[v0] English summary extracted: ${englishSummary.length} characters`)
-
-        console.log("[v0] Extracting key points...")
-        keyPoints = this.summarizer.extractKeyPoints(text, 8)
+        console.log("[v0] Generating abstractive summary using client-side AI...")
+        
+        // Use client-side abstractive summarization
+        const abstractiveResult = await this.abstractiveSummarizer.generateAbstractiveSummary(text)
+        englishSummary = abstractiveResult.summary
+        keyPoints = abstractiveResult.keyPoints
+        
+        console.log(`[v0] Client-side abstractive summary generated: ${englishSummary.length} characters`)
         console.log(`[v0] Key points extracted: ${keyPoints.length} points`)
-      } catch (extractionError) {
-        console.error("[v0] Summary extraction failed:", extractionError)
-        // Fallback to simple text truncation
-        englishSummary = text.length > 1000 ? text.substring(0, 1000) + "..." : text
-        keyPoints = text
-          .split(/[.!?]+/)
-          .filter((s) => s.trim().length > 20)
-          .slice(0, 5)
-        console.log("[v0] Using fallback summary and key points")
+        console.log(`[v0] Summary confidence: ${abstractiveResult.confidence}`)
+        console.log(`[v0] Summarization method: ${abstractiveResult.method}`)
+      } catch (abstractiveError) {
+        console.warn("[v0] Client-side abstractive summarization failed, falling back to extractive:", abstractiveError)
+        
+        // Fallback to extractive summarization
+        try {
+          console.log("[v0] Using extractive summarization fallback...")
+          englishSummary = this.summarizer.extractSummary(text, 6)
+          keyPoints = this.summarizer.extractKeyPoints(text, 8)
+          console.log(`[v0] Extractive fallback completed: ${englishSummary.length} characters`)
+        } catch (extractionError) {
+          console.error("[v0] All summarization methods failed:", extractionError)
+          // Final fallback to simple text truncation
+          englishSummary = text.length > 1000 ? text.substring(0, 1000) + "..." : text
+          keyPoints = text
+            .split(/[.!?]+/)
+            .filter((s) => s.trim().length > 20)
+            .slice(0, 5)
+          console.log("[v0] Using final fallback summary and key points")
+        }
       }
 
       const summaries: SummaryResult[] = []
